@@ -1,0 +1,21 @@
+# ============================================================
+#  Top navigation. Order here is display order.
+# ============================================================
+
+- title: "Research"
+  url: "/research/"
+
+- title: "Publications"
+  url: "/publications/"
+
+- title: "Software"
+  url: "/software/"
+
+- title: "Team"
+  url: "/team/"
+
+- title: "News"
+  url: "/news/"
+
+- title: "Join"
+  url: "/join/"

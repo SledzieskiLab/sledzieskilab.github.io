@@ -1,0 +1,23 @@
+{%- comment -%}
+  Outputs the string "true" when the research collection is producing its
+  own pages (`output: true` on the collection in _config.yml), and
+  nothing otherwise.
+
+  Three places need this answer — the nav dropdown, /research/, and the
+  homepage cards — so it lives in one file rather than being repeated.
+
+  Use it like:
+      {%- capture _ro -%}{%- include research-output.html -%}{%- endcapture -%}
+      {%- if _ro == 'true' -%} ... {%- endif -%}
+
+  Checked with a loop rather than the `where` filter because in Jekyll 3
+  (which the github-pages gem pins) site.collections is an array of
+  Collection objects and `where` doesn't reach their attributes reliably.
+{%- endcomment -%}
+{%- assign _research_out = '' -%}
+{%- for col in site.collections -%}
+  {%- if col.label == 'research' and col.output -%}
+    {%- assign _research_out = 'true' -%}
+  {%- endif -%}
+{%- endfor -%}
+{{- _research_out -}}

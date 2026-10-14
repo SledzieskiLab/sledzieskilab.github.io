@@ -1,0 +1,16 @@
+# ============================================================
+#  News / updates
+#
+#  Newest first. The homepage shows the most recent few (set by
+#  `news_on_homepage` in _data/settings.yml); /news/ shows all.
+#
+#  `date` must be YYYY-MM-DD so sorting and formatting work.
+#  `text` supports inline markdown, so [links](https://...) and
+#  *emphasis* work fine.
+#
+# ============================================================
+
+- date: 2026-10-14
+  text: >-
+    The lab website is live! Sam will join the [Halıcıoğlu Data Science Institute](https://datascience.ucsd.edu/) at UC San Diego as an Assistant Professor in July 2027, and the lab is **recruiting at all levels**: see [Join](/join/).
+

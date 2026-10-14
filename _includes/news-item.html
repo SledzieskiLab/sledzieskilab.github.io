@@ -1,0 +1,11 @@
+{%- comment -%}
+  One news entry. Expects: include.item
+  `text` is markdownified so links and emphasis work in the YAML.
+{%- endcomment -%}
+
+{%- assign item = include.item -%}
+
+<div class="news-item">
+  <div class="news-item__date">{{ item.date | date: "%b %-d, %Y" }}</div>
+  <div class="news-item__text">{{ item.text | markdownify }}</div>
+</div>

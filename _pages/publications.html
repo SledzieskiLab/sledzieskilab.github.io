@@ -1,0 +1,70 @@
+---
+layout: default
+permalink: /publications/
+title: "Publications"
+---
+
+<div class="wrap page-head">
+  <h1>{{ page.title }}</h1>
+  <p class="lead">
+    Lab members are shown in bold. For the most up-to-date list of publications, see <a
+      href="{{ site.social.scholar }}">Google Scholar</a>.
+  </p>
+</div>
+
+<div class="wrap section">
+  <div>
+
+    {%- comment -%}
+    Controls are hidden by default and revealed by publications.js.
+    Without JavaScript there is nothing to operate them, so showing
+    a dead search box would be worse than showing none — the full
+    list below is already grouped by year server-side.
+    {%- endcomment -%}
+    <div class="pub-controls" id="pub-controls" hidden>
+      <div class="pub-controls__search">
+        <label class="visually-hidden" for="pub-search">Search publications</label>
+        <input type="search" id="pub-search" autocomplete="off" placeholder="Search title, author, or journal">
+      </div>
+      <div class="pub-controls__group">
+        <span class="pub-controls__label" id="show-label">Show</span>
+        <div class="segmented" role="group" aria-labelledby="show-label">
+          <button type="button" data-show="all" aria-pressed="true">All</button>
+          <button type="button" data-show="selected" aria-pressed="false">Selected</button>
+        </div>
+      </div>
+
+      <div class="pub-controls__group">
+        <span class="pub-controls__label" id="groupby-label">Group by</span>
+        <div class="segmented" role="group" aria-labelledby="groupby-label">
+          <button type="button" data-group="year" aria-pressed="true">Year</button>
+          <button type="button" data-group="area" aria-pressed="false">Area</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="pub-count" id="pub-count" role="status" hidden></p>
+
+    {%- comment -%}
+    Server-rendered grouped by year. JavaScript reorders these same
+    nodes in place rather than re-rendering them, so each entry keeps
+    its BibTeX dialog and that dialog keeps its id.
+    {%- endcomment -%}
+    <div id="pub-list">
+      {%- assign by_year = site.data.publications | sort: "year" | reverse -%}
+      {%- assign current_year = "" -%}
+      {%- for pub in by_year -%}
+      {%- if pub.year != current_year -%}
+      <h2 class="pub-year" data-group-heading>{{ pub.year }}</h2>
+      {%- assign current_year = pub.year -%}
+      {%- endif -%}
+      {% include publication.html pub=pub %}
+      {%- endfor -%}
+    </div>
+
+    <p class="pub-empty" id="pub-empty" hidden>
+      No publications match that search.
+    </p>
+
+  </div>
+</div>

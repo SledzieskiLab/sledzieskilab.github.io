@@ -1,0 +1,67 @@
+{%- comment -%}
+  One person card, used for everyone in the /team/ grid. Expects:
+  include.person
+
+  Order is photo, name, role, then short details and links.
+
+  If the person has a `bio`, the photo becomes a button (keyboard
+  reachable, announced as a control) that opens it in a dialog — keeping
+  every card the same height regardless of bio length.
+
+  Photos resolve to assets/images/people/<photo>, falling back to
+  placeholder.svg so a member can be listed before their photo exists.
+{%- endcomment -%}
+
+{%- assign p = include.person -%}
+{%- if p.photo -%}
+  {%- assign photo_path = '/assets/images/people/' | append: p.photo -%}
+{%- else -%}
+  {%- assign photo_path = '/assets/images/people/placeholder.svg' -%}
+{%- endif -%}
+{%- assign uid = p.name | slugify -%}
+
+<div class="person">
+  {%- if p.bio %}
+  <button type="button" class="person__photo person__photo--button"
+          data-dialog-open="bio-{{ uid }}"
+          aria-haspopup="dialog"
+          aria-label="Read {{ p.name }}'s biography">
+    <img src="{{ photo_path | relative_url }}" alt="{{ p.name }}" loading="lazy">
+  </button>
+  {%- else %}
+  <div class="person__photo">
+    <img src="{{ photo_path | relative_url }}" alt="{{ p.name }}" loading="lazy">
+  </div>
+  {%- endif %}
+
+  <div class="person__name">{{ p.name }}</div>
+  {%- if p.role %}<div class="person__role">{{ p.role }}</div>{% endif %}
+  {%- if p.program %}<p class="person__meta">{{ p.program }}</p>{% endif %}
+  {%- if p.interests %}<p class="person__meta">{{ p.interests }}</p>{% endif %}
+
+  {%- if p.links %}
+  <div class="person__links">
+    {%- if p.links.email %}<a href="mailto:{{ p.links.email }}">Email</a>{% endif %}
+    {%- if p.links.website %}<a href="{{ p.links.website }}">Web</a>{% endif %}
+    {%- if p.links.github %}<a href="https://github.com/{{ p.links.github }}">GitHub</a>{% endif %}
+    {%- if p.links.scholar %}<a href="{{ p.links.scholar }}">Scholar</a>{% endif %}
+    {%- if p.links.bluesky %}<a href="https://bsky.app/profile/{{ p.links.bluesky }}">Bluesky</a>{% endif %}
+  </div>
+  {%- endif %}
+
+  {%- if p.bio %}
+  <dialog class="bio-dialog" id="bio-{{ uid }}">
+    <div class="bio-dialog__head">
+      <div>
+        <div class="bio-dialog__name">{{ p.name }}</div>
+        {%- if p.role %}<div class="person__role">{{ p.role }}</div>{% endif %}
+      </div>
+      <button type="button" class="bib-dialog__close" data-dialog-close
+              aria-label="Close">&times;</button>
+    </div>
+    <div class="bio-dialog__body">
+      {{ p.bio | markdownify }}
+    </div>
+  </dialog>
+  {%- endif %}
+</div>

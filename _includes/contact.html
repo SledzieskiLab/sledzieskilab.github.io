@@ -1,0 +1,40 @@
+{%- comment -%}
+  Contact details: Address on the left, Links on the right.
+
+  Values come from _config.yml (`contact:` and `social:`), so there is no
+  second copy to keep current — delete a key there and the row
+  disappears. Link order is fixed here: email, Bluesky, GitHub.
+
+  Rendered inside footer.html, so it appears on every page.
+{%- endcomment -%}
+
+<div class="contact">
+  {%- if site.contact.address_lines %}
+  <div class="contact__col">
+    <h3 class="contact__label">Address</h3>
+    <p class="contact__address">
+      {%- for line in site.contact.address_lines -%}
+        {{ line }}{% unless forloop.last %}<br>{% endunless %}
+      {%- endfor -%}
+    </p>
+  </div>
+  {%- endif %}
+
+  {%- capture links -%}
+    {%- if site.contact.email -%}
+      <li><a href="mailto:{{ site.contact.email }}">{% include icon.html name="email" %}<span>{{ site.contact.email }}</span></a></li>
+    {%- endif -%}
+    {%- if site.social.bluesky -%}
+      <li><a href="https://bsky.app/profile/{{ site.social.bluesky }}">{% include icon.html name="bluesky" %}<span>@{{ site.social.bluesky }}</span></a></li>
+    {%- endif -%}
+    {%- if site.social.github -%}
+      <li><a href="https://github.com/{{ site.social.github }}">{% include icon.html name="github" %}<span>{{ site.social.github }}</span></a></li>
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- if links != '' %}
+  <div class="contact__col">
+    <h3 class="contact__label">Links</h3>
+    <ul class="contact__links">{{ links }}</ul>
+  </div>
+  {%- endif %}
+</div>

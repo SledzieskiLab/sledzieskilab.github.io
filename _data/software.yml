@@ -1,0 +1,100 @@
+# ============================================================
+#  Software — tools and packages from the lab.
+#
+#  `repo`  owner/name on GitHub; the template builds the URL and,
+#          with `stars: true`, shows a live star badge.
+#  `home`  use instead of `repo` for tools whose homepage isn't a
+#          GitHub repository.
+#  `area`  groups the list on /software/.
+#  `logo`  optional image in assets/images/software/, shown in a left
+#          column like the publication thumbnails. Use a SQUARE image
+#          on a transparent or light background.
+#  `emoji` optional stand-in when there's no bespoke logo
+#  `links` any of: pypi, docs, paper, database
+#  `blurb` free text description of the software.
+# ============================================================
+
+- name: "D-SCRIPT"
+  area: "Protein Networks"
+  emoji: "📜"
+  repo: "samsledje/D-SCRIPT"
+  stars: true
+  blurb: "Sequence-based prediction of protein-protein interactions using a protein language model. Also ships the Topsy-Turvy and TT3D models."
+  links:
+    pypi: "https://pypi.org/project/dscript/"
+    paper: "https://www.cell.com/cell-systems/pdfExtended/S2405-4712(21)00333-1"
+
+- name: "ConPLex"
+  area: "Drug Discovery"
+  emoji: "💊"
+  repo: "samsledje/ConPLex"
+  stars: true
+  blurb: "High-throughput prediction of drug-target interactions using a protein language model and contrastive learning."
+  links:
+    pypi: "https://pypi.org/project/conplex-dti/"
+    paper: "https://www.pnas.org/doi/epdf/10.1073/pnas.2220778120"
+
+- name: "PHILHARMONIC"
+  area: "Protein Networks"
+  logo: "philharmonic.png"
+  repo: "samsledje/philharmonic"
+  stars: true
+  blurb: "An engine for biological hypothesis generation and de novo functional inference in non-model organisms."
+  links:
+    database: "https://cb.csail.mit.edu/philharmonicDB/"
+    pypi: "https://pypi.org/project/philharmonic/"
+    paper: "https://doi.org/10.1101/2024.10.25.620267"
+
+- name: "Seq2Symm"
+  area: "Protein Structure"
+  emoji: "❄️"
+  repo: "microsoft/seq2symm"
+  stars: true
+  blurb: "Accurate and high-throughput prediction of the quaternary symmetry class of homo-oligomers using a language model."
+  links:
+    paper: "https://www.researchsquare.com/article/rs-4215086/v1"
+
+- name: "TreeFix-TP"
+  area: "Phylogenetics"
+  emoji: "🌳"
+  repo: "samsledje/TreeFix-TP"
+  stars: true
+  blurb: "Error correction for viral phylogenies based on parsimonious reconciliation with a species tree."
+  links:
+    paper: "https://www.worldscientific.com/doi/pdf/10.1142/9789811232701_0012"
+
+- name: "VirDTL"
+  area: "Phylogenetics"
+  emoji: "🧬"
+  repo: "suz11001/virDTL"
+  stars: true
+  blurb: "Inference of ancestral and extant strain recombination in viral genomes using phylogenetic reconciliation."
+  links:
+    paper: "https://www.liebertpub.com/doi/10.1089/cmb.2021.0507"
+
+- name: "MINT"
+  area: "Protein Networks"
+  emoji: "🌿"
+  repo: "VarunUllanat/mint"
+  stars: true
+  blurb: "Protein language model trained to learn the distribution over sets of interacting protein sequences."
+  links:
+    paper: "https://www.biorxiv.org/content/10.1101/2025.03.09.642188v1"
+
+- name: "PLANET-MD"
+  area: "Protein Structure"
+  logo: "planet-md.png"
+  repo: "flatironinstitute/PLANET-MD"
+  stars: true
+  blurb: "Ultra-fast proteome-scale prediction of protein dynamics. Formerly released as RocketSHP."
+  links:
+    paper: "https://www.biorxiv.org/content/10.1101/2025.06.12.659353v1"
+
+- name: "MIMIC"
+  area: "Foundation Models"
+  logo: "mimic.png"
+  repo: "PolymathicAI/MIMIC"
+  stars: true
+  blurb: "A generative multimodal foundation model for biomolecules."
+  links:
+    paper: "https://arxiv.org/abs/2604.24506"

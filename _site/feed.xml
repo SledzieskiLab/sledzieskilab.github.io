@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Sledzieski Lab</title>
+  <link href="https://sledzieskilab.org/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://sledzieskilab.org/" rel="alternate" type="text/html"/>
+  <id>https://sledzieskilab.org/</id>
+  <updated>2026-10-14T00:00:00-07:00</updated>
+  <author>
+    <name>Samuel Sledzieski</name><email>ssledzieski@ucsd.edu</email>
+  </author><entry>
+    <title>The lab website is live! Sam will join the Halıcıoğlu Data Science Institute at UC San ...</title>
+    <link href="https://sledzieskilab.org/news/" rel="alternate" type="text/html"/>
+    <id>https://sledzieskilab.org/news/#2026-10-14-1</id>
+    <updated>2026-10-14T00:00:00-07:00</updated>
+    <published>2026-10-14T00:00:00-07:00</published>
+    <content type="html">&lt;p&gt;The lab website is live! Sam will join the &lt;a href=&quot;https://datascience.ucsd.edu/&quot;&gt;Halıcıoğlu Data Science Institute&lt;/a&gt; at UC San Diego as an Assistant Professor in July 2027, and the lab is &lt;strong&gt;recruiting at all levels&lt;/strong&gt;: see &lt;a href=&quot;/join/&quot;&gt;Join&lt;/a&gt;.&lt;/p&gt;</content>
+  </entry>
+</feed>

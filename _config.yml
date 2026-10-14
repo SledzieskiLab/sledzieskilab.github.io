@@ -1,0 +1,129 @@
+# ============================================================
+#  Sledzieski Lab — site configuration
+#
+#  NOTE: Jekyll does not pick up changes to this file while
+#  `make serve` is running. Restart the server after editing.
+# ============================================================
+
+title: "Sledzieski Lab"
+tagline: "Halıcıoğlu Data Science Institute, UC San Diego"
+palette: navy
+
+description: >-
+  The Sledzieski Lab at UC San Diego develops computational methods to better understand molecular structures and interactions, from modeling complex structural dynamics to building whole-organism interaction networks.
+
+
+url: "https://sledzieskilab.org" # no trailing slash
+baseurl: ""
+
+# ---------- PI ----------
+pi:
+  name: "Samuel Sledzieski"
+  title: "Assistant Professor"
+  department: "Halıcıoğlu Data Science Institute"
+  institution: "UC San Diego"
+  email: "ssledzieski@ucsd.edu"
+
+# ---------- Contact / footer ----------
+contact:
+  email: "ssledzieski@ucsd.edu"
+  address_lines:
+    - "Halıcıoğlu Data Science Institute"
+    - "UC San Diego"
+    - "9500 Gilman Drive"
+    - "La Jolla, CA 92093"
+
+# ---------- Social / academic links ----------
+# Delete any line to hide that icon. Order here is display order.
+social:
+  github: "SledzieskiLab"
+  bluesky: "samsl.io"
+  scholar: "https://scholar.google.com/citations?user=BoZ7AqYAAAAJ&hl=en"
+  orcid: "https://orcid.org/0000-0002-0170-3029"
+  personal: "https://samsl.io"
+
+# ---------- Recruiting banner ----------
+# Set active: false to hide the banner sitewide.
+recruiting:
+  active: true
+  text: "The lab is recruiting PhD students, postdocs, and undergraduates for 2027."
+  link: "/join/"
+  link_text: "How to apply"
+
+# ============================================================
+#  Build settings — you rarely need to touch anything below
+# ============================================================
+
+# jekyll-feed is deliberately absent: it only indexes `_posts`, and
+# news lives in _data/news.yml. feed.xml is a template instead.
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# output:false means they render only as sections of /research/
+# flip it to true to give each its own page at /research/<slug>/
+# without touching the content.
+collections:
+  research:
+    output: false
+    permalink: /research/:title/
+
+  # Per-publication project pages: one file per project in _projects/,
+  # each carrying the `citekey:` of its paper so the "Project page" chip
+  # appears on /publications/. Named `_projects` rather than
+  # `_publications` so `site.publications` can't be confused with
+  # `site.data.publications`, the actual paper list.
+  projects:
+    output: true
+    permalink: /publications/:title/
+
+# Pages live in _pages/ but are served from the site root.
+include:
+  - _pages
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/og-card.png
+
+  - scope:
+      path: ""
+      type: "research"
+    values:
+      layout: "research-area"
+
+  # Without this default, project pages would render as bare markdown
+  # fragments with no layout — the same trap documented for research.
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+
+  - scope:
+      path: "_pages"
+      type: "pages"
+    values:
+      layout: "page"
+
+sass:
+  style: compressed
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+permalink: /:title/
+timezone: America/Los_Angeles
+
+exclude:
+  - AGENTS.md
+  - Gemfile
+  - Gemfile.lock
+  - Makefile
+  - README.md
+  - vendor
+  - .jekyll-cache
+  - node_modules

@@ -1,0 +1,109 @@
+{%- comment -%}
+  Generates a BibTeX entry from a publication record. Expects: include.pub
+
+  Citekey is Google Scholar's format: <surname><year><first title word>,
+  lowercase, punctuation stripped — e.g. sledzieski2021dscript.
+
+  Entry type defaults to @article; `type: inproceedings` emits a
+  conference entry with booktitle instead. The DOI comes from the
+  entry's top-level `doi:` (bare, no URL prefix), not links.paper — a
+  paper linked only by PDF can still carry a DOI in its citation.
+{%- endcomment -%}
+
+{%- assign p = include.pub -%}
+
+{%- comment -%}
+  ---- authors ----
+  publications.yml is surname-only, so names are not inverted here.
+  Multi-word entries are compound surnames ("Espejo Morales") and get
+  brace-wrapped so BibTeX keeps them atomic — without braces it reads
+  the first word as a forename ("Morales, E."). A full "First Last"
+  name needs `bibtex_authors:` set explicitly, "Last, First and ...".
+
+  Display markup (** bold, escaped \* \+ markers) is stripped first.
+{%- endcomment -%}
+{%- if p.bibtex_authors -%}
+  {%- assign bib_authors = p.bibtex_authors -%}
+{%- else -%}
+  {%- assign clean = p.authors | remove: '*' | remove: '\' | remove: '+' | strip -%}
+  {%- assign author_list = clean | split: ',' -%}
+  {%- capture bib_authors -%}
+    {%- for a in author_list -%}
+      {%- assign nm = a | strip -%}
+      {%- assign parts = nm | split: ' ' -%}
+      {%- if parts.size > 1 -%}
+{{ '{' }}{{ nm }}}
+      {%- else -%}
+{{ nm }}
+      {%- endif -%}
+      {%- unless forloop.last %} and {% endunless -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{%- comment -%} ---- citekey ---- {%- endcomment -%}
+{%- if p.citekey -%}
+  {%- assign key = p.citekey -%}
+{%- else -%}
+  {%- assign clean = p.authors | remove: '*' | remove: '\' | remove: '+' | strip -%}
+  {%- assign first_parts = clean | split: ',' | first | strip | split: ' ' -%}
+  {%- assign fli = first_parts | size | minus: 1 -%}
+  {%- assign key_author = first_parts[fli] | downcase -%}
+
+  {%- comment -%}
+    Skip a leading article, as Google Scholar does: "The landscape of..."
+    keys as ...2026landscape, not ...2026the.
+  {%- endcomment -%}
+  {%- assign title_words = p.title | split: ' ' -%}
+  {%- assign w0 = title_words[0] | downcase | remove: ':' | remove: ',' -%}
+  {%- if w0 == 'the' or w0 == 'a' or w0 == 'an' -%}
+    {%- assign first_word = title_words[1] | downcase -%}
+  {%- else -%}
+    {%- assign first_word = w0 -%}
+  {%- endif -%}
+
+  {%- assign punct = "- : , . ' \" ( ) ? ! ; " | split: ' ' -%}
+  {%- for c in punct -%}
+    {%- assign key_author = key_author | replace: c, '' -%}
+    {%- assign first_word = first_word | replace: c, '' -%}
+  {%- endfor -%}
+  {%- assign key_author = key_author | replace: "'", '' -%}
+  {%- assign first_word = first_word | replace: "'", '' -%}
+
+  {%- comment -%}
+    Fold accented Latin letters to ASCII — a literal "ä" in a citekey
+    breaks plain LaTeX. Liquid has no transliterate filter, so common
+    cases are spelled out; add more here or set `citekey:` explicitly.
+  {%- endcomment -%}
+  {%- assign from = "á à â ä ã å é è ê ë í ì î ï ó ò ô ö õ ú ù û ü ý ñ ç ø š ž ł" | split: ' ' -%}
+  {%- assign to   = "a a a a a a e e e e i i i i o o o o o u u u u y n c o s z l" | split: ' ' -%}
+  {%- for c in from -%}
+    {%- assign key_author = key_author | replace: c, to[forloop.index0] -%}
+    {%- assign first_word = first_word | replace: c, to[forloop.index0] -%}
+  {%- endfor -%}
+
+  {%- assign key = key_author | append: p.year | append: first_word -%}
+{%- endif -%}
+
+{%- comment -%} ---- emit ---- {%- endcomment -%}
+{%- if p.type == 'inproceedings' -%}
+@inproceedings{{ '{' }}{{ key }},
+  title     = {{ '{' }}{{ p.title }}},
+  author    = {{ '{' }}{{ bib_authors }}},
+  booktitle = {{ '{' }}{{ p.venue }}},
+  year      = {{ '{' }}{{ p.year }}}{% if p.pages %},
+  pages     = {{ '{' }}{{ p.pages }}}{% endif %}{% if p.doi %},
+  doi       = {{ '{' }}{{ p.doi }}}{% endif %}
+}
+{%- else -%}
+@article{{ '{' }}{{ key }},
+  title   = {{ '{' }}{{ p.title }}},
+  author  = {{ '{' }}{{ bib_authors }}},
+  journal = {{ '{' }}{{ p.venue }}},
+  year    = {{ '{' }}{{ p.year }}}{% if p.volume %},
+  volume  = {{ '{' }}{{ p.volume }}}{% endif %}{% if p.number %},
+  number  = {{ '{' }}{{ p.number }}}{% endif %}{% if p.pages %},
+  pages   = {{ '{' }}{{ p.pages }}}{% endif %}{% if p.doi %},
+  doi     = {{ '{' }}{{ p.doi }}}{% endif %}
+}
+{%- endif -%}

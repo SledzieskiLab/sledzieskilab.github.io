@@ -1,0 +1,98 @@
+---
+layout: default
+# The homepage assembles itself from _data/. To reorder sections,
+# move the blocks below. To change their content, edit the YAML.
+---
+
+{%- comment -%} ---------- Hero ---------- {%- endcomment -%}
+<section class="wrap hero">
+  {%- comment -%}
+    The description doubles as the page's h1. Every page needs one, and
+    inventing a separate headline would just reintroduce the tagline.
+    Styled to read as a statement rather than a display heading — see
+    .hero__statement.
+  {%- endcomment -%}
+  <h1 class="hero__statement">{{ site.description }}</h1>
+  <div class="hero__actions">
+    <a class="btn btn--ghost" href="{{ '/research/' | relative_url }}">Our research</a>
+    <a class="btn btn--ghost" href="{{ '/team/' | relative_url }}">Our team</a>
+  </div>
+</section>
+
+{%- comment -%} ---------- Research areas ---------- {%- endcomment -%}
+<section class="section--tint">
+  <div class="wrap section">
+    <h2 class="eyebrow">Research</h2>
+    {%- comment -%} assigns must precede the div — data-count reads
+      areas.size, which is empty if the list isn't built yet. {%- endcomment -%}
+    {%- capture _research_output -%}{%- include research-output.html -%}{%- endcapture -%}
+    {%- assign areas = site.research | sort: "order" -%}
+    <div class="research-grid" data-count="{{ areas.size }}">
+      {%- for area in areas -%}
+      {%- if area.image -%}
+      {%- assign img = '/assets/images/research/' | append: area.image -%}
+      {%- else -%}
+      {%- assign img = '/assets/images/research/placeholder.svg' -%}
+      {%- endif -%}
+      {%- comment -%} Deep-link to the area's own page when the
+      collection outputs them; otherwise to its section on
+      /research/. {%- endcomment -%}
+      {%- if _research_output == 'true' -%}
+      {%- assign target = area.url | relative_url -%}
+      {%- else -%}
+      {%- capture target %}{{ '/research/' | relative_url }}#{{ area.slug }}{% endcapture -%}
+      {%- endif -%}
+      <a class="research-card" href="{{ target }}">
+        <div class="research-card__img">
+          <img src="{{ img | relative_url }}" alt="{{ area.title }}" loading="lazy">
+        </div>
+        <h3>{{ area.title }}</h3>
+        <p>{{ area.blurb }}</p>
+      </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%}
+  ---------- Selected publications ----------
+  Papers flagged `selected: true`, newest first, capped at
+  pubs_on_homepage — never topped up with unflagged papers, since that
+  would put unselected work under a "Selected" heading. Falls back to
+  the most recent papers only when nothing at all is flagged.
+{%- endcomment -%}
+<section class="wrap section">
+  <h2 class="eyebrow">Selected publications</h2>
+  {%- assign limit = site.data.settings.pubs_on_homepage | default: 3 -%}
+  {%- assign selected = site.data.publications | where: "selected", true -%}
+  {%- if selected.size > 0 -%}
+  {%- assign shown = selected | sort: "year" | reverse -%}
+  {%- else -%}
+  {%- assign shown = site.data.publications | sort: "year" | reverse -%}
+  {%- endif -%}
+  <div>
+    {%- for pub in shown limit: limit -%}
+    {% include publication.html pub=pub %}
+    {%- endfor -%}
+    <p class="section-more">
+      <a href="{{ '/publications/' | relative_url }}">All publications &rarr;</a>
+    </p>
+  </div>
+</section>
+
+{%- comment -%} ---------- News ---------- {%- endcomment -%}
+<section class="section--tint">
+  <div class="wrap section">
+    <h2 class="eyebrow">News</h2>
+    {%- assign news_limit = site.data.settings.news_on_homepage | default: 4 -%}
+    {%- assign sorted_news = site.data.news | sort: "date" | reverse -%}
+    <div class="news-list">
+      {%- for item in sorted_news limit: news_limit -%}
+      {% include news-item.html item=item %}
+      {%- endfor -%}
+    </div>
+    <p class="section-more">
+      <a href="{{ '/news/' | relative_url }}">All news &rarr;</a>
+    </p>
+  </div>
+</section>

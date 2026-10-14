@@ -1,0 +1,27 @@
+---
+layout: default
+permalink: /news/
+title: "News"
+---
+
+<div class="wrap page-head">
+  <h1>{{ page.title }}</h1>
+</div>
+
+<div class="wrap section">
+  {%- comment -%}
+    Grouped by year so a long history stays scannable.
+  {%- endcomment -%}
+  {%- assign sorted = site.data.news | sort: "date" | reverse -%}
+  {%- assign current_year = "" -%}
+  <div class="news-list">
+    {%- for item in sorted -%}
+      {%- assign y = item.date | date: "%Y" -%}
+      {%- if y != current_year -%}
+        <h2 class="pub-year">{{ y }}</h2>
+        {%- assign current_year = y -%}
+      {%- endif -%}
+      {% include news-item.html item=item %}
+    {%- endfor -%}
+  </div>
+</div>

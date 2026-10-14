@@ -1,0 +1,12 @@
+---
+---
+/* Intentionally near-empty.
+
+   The `github-pages` gem bundles all 13 official GitHub Pages themes,
+   and one of them leaks its own assets/css/style.scss into every build
+   — about 77 KB of normalize.css + Primer that this site never links to.
+
+   Files in the site source take precedence over files from gems, so
+   this file shadows that one and reduces it to this comment.
+
+   The real stylesheet is assets/css/main.scss. */

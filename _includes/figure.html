@@ -1,0 +1,32 @@
+{%- comment -%}
+  A captioned figure, placed inline in a page's markdown body. Liquid
+  runs before kramdown, so this works anywhere in the prose:
+
+      {% include figure.html src="mimic/architecture.png"
+                             caption="What the reader is looking at." %}
+
+  Parameters:
+    src      required — a bare path under assets/images/projects/, OR a
+                        site-root path starting with "/", OR a full URL
+    caption  optional — inline markdown allowed
+    alt      optional — defaults to the caption; set it when the caption
+                        doesn't describe the image (or to "" if the
+                        figure is purely decorative)
+    base     optional — defaults to /assets/images/projects/
+
+  Why an include and not `![](...)`: a relative markdown path resolves
+  against the page's URL (/publications/<slug>/ for a project page), so
+  `![](assets/images/x.png)` 404s — and markdown has nowhere to put a
+  caption anyway. Plain markdown still works without a caption, as long
+  as the path starts at the site root.
+{%- endcomment -%}
+{%- assign _base = include.base | default: '/assets/images/projects/' -%}
+{%- assign _alt = include.alt | default: include.caption | default: '' -%}
+<figure class="project-figure">
+<img class="project-figure__media" loading="lazy"
+src="{% include project-asset.html path=include.src base=_base %}"
+alt="{{ _alt | strip_html | strip | escape }}">
+{%- if include.caption %}
+<figcaption class="project-caption">{{ include.caption | markdownify | remove: '<p>' | remove: '</p>' }}</figcaption>
+{%- endif %}
+</figure>

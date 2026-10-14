@@ -1,0 +1,22 @@
+# ============================================================
+#  Small display knobs. Kept out of _config.yml so that changing
+#  them doesn't require restarting `make serve`.
+# ============================================================
+
+news_on_homepage: 4
+pubs_on_homepage: 3
+
+# Keys must match the `group` values used in people.yml.
+people_groups:
+  - key: pi
+    heading: "Principal Investigator"
+  - key: postdoc
+    heading: "Postdoctoral Fellows"
+  - key: phd
+    heading: "PhD Students"
+  - key: masters
+    heading: "Masters Students"
+  - key: undergrad
+    heading: "Undergraduate Researchers"
+  - key: staff
+    heading: "Staff"

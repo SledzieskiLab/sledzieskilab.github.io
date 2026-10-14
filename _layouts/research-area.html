@@ -1,0 +1,63 @@
+---
+layout: default
+---
+{%- comment -%}
+  A single research area as its own page (only used when the collection
+  has `output: true`). Deliberately the same content and order as the
+  section on /research/, so turning pages on changes where an area lives,
+  not what it says.
+{%- endcomment -%}
+
+<div class="wrap page-head">
+  <p class="research-area__parent">
+    <a href="{{ '/research/' | relative_url }}">&larr; Research</a>
+  </p>
+  <h1>{{ page.title }}</h1>
+</div>
+
+<div class="wrap section">
+  <div class="research-detail__body prose">
+    {%- if page.image %}
+    <img class="research-area__image"
+         src="{{ '/assets/images/research/' | append: page.image | relative_url }}"
+         alt="" loading="lazy">
+    {%- endif %}
+
+    {{ content }}
+
+    {%- comment -%}
+      Same citekey resolution as the /research/ sections, so the two
+      views can't disagree about which papers belong to an area.
+    {%- endcomment -%}
+    {%- if page.papers and page.papers.size > 0 -%}
+      {%- assign resolved = '' | split: '' -%}
+      {%- for key in page.papers -%}
+        {%- assign hit = site.data.publications | where: "citekey", key | first -%}
+        {%- if hit -%}{%- assign resolved = resolved | push: hit -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if resolved.size > 0 %}
+      <h2 class="research-detail__papers-heading">Related publications</h2>
+      <ul class="research-papers">
+        {%- for pub in resolved %}
+        <li>
+          {%- if pub.links.paper -%}
+            <a href="{{ pub.links.paper }}">{{ pub.title }}</a>
+          {%- else -%}
+            {{ pub.title }}
+          {%- endif -%}
+          <span class="research-papers__meta">{{ pub.venue }}, {{ pub.year }}</span>
+        </li>
+        {%- endfor %}
+      </ul>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if page.links and page.links.size > 0 %}
+    <div class="pub__links research-detail__links">
+      {%- for l in page.links %}
+      <a class="chip" href="{{ l.url }}">{{ l.text }}</a>
+      {%- endfor %}
+    </div>
+    {%- endif %}
+  </div>
+</div>

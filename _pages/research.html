@@ -1,0 +1,99 @@
+---
+layout: default
+permalink: /research/
+title: "Research"
+---
+
+{%- capture _research_output -%}{%- include research-output.html -%}{%- endcapture -%}
+{%- assign areas = site.research | sort: "order" -%}
+
+<div class="wrap page-head">
+  <h1>{{ page.title }}</h1>
+</div>
+
+{%- comment -%} ---------- Overview cards ---------- {%- endcomment -%}
+<div class="wrap section">
+  <div class="research-grid" data-count="{{ areas.size }}">
+    {%- for area in areas -%}
+    {%- if area.image -%}
+    {%- assign img = '/assets/images/research/' | append: area.image -%}
+    {%- else -%}
+    {%- assign img = '/assets/images/research/placeholder.svg' -%}
+    {%- endif -%}
+    {%- comment -%} Link to the area's own page when it has one, else
+    to its section on this page. {%- endcomment -%}
+    {%- if _research_output == 'true' -%}
+    {%- assign target = area.url | relative_url -%}
+    {%- else -%}
+    {%- assign target = '#' | append: area.slug -%}
+    {%- endif -%}
+    <a class="research-card" href="{{ target }}">
+      <div class="research-card__img">
+        <img src="{{ img | relative_url }}" alt="" loading="lazy">
+      </div>
+      <h2>{{ area.title }}</h2>
+      <p>{{ area.blurb }}</p>
+    </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{%- comment -%}
+---------- Detailed sections ----------
+Only rendered when the areas have no pages of their own. With
+output:true the cards link out and repeating the text here would put
+the same content at two URLs.
+{%- endcomment -%}
+{%- if _research_output != 'true' -%}
+<div class="section--tint">
+  <div class="wrap section">
+    {%- for area in areas -%}
+    <section class="research-detail" id="{{ area.slug }}">
+      <div class="research-detail__head">
+        <h2>{{ area.title }}</h2>
+      </div>
+
+      <div class="research-detail__body prose">
+        {{ area.content | markdownify }}
+
+        {%- comment -%}
+        Papers are referenced by citekey in the area's front matter and
+        resolved against _data/publications.yml here, so titles, venues
+        and links can't drift out of sync with the publication list.
+        {%- endcomment -%}
+        {%- if area.papers and area.papers.size > 0 -%}
+        {%- assign resolved = '' | split: '' -%}
+        {%- for key in area.papers -%}
+        {%- assign hit = site.data.publications | where: "citekey", key | first -%}
+        {%- if hit -%}{%- assign resolved = resolved | push: hit -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if resolved.size > 0 %}
+        <h3 class="research-detail__papers-heading">Related publications</h3>
+        <ul class="research-papers">
+          {%- for pub in resolved -%}
+          <li>
+            {%- if pub.links.paper -%}
+            <a href="{{ pub.links.paper }}">{{ pub.title }}</a>
+            {%- else -%}
+            {{ pub.title }}
+            {%- endif -%}
+            <span class="research-papers__meta">{{ pub.venue }}, {{ pub.year }}</span>
+          </li>
+          {%- endfor -%}
+        </ul>
+        {%- endif -%}
+        {%- endif -%}
+
+        {%- if area.links and area.links.size > 0 %}
+        <div class="pub__links research-detail__links">
+          {%- for l in area.links %}
+          <a class="chip" href="{{ l.url }}">{{ l.text }}</a>
+          {%- endfor %}
+        </div>
+        {%- endif %}
+      </div>
+    </section>
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}

@@ -1,0 +1,44 @@
+---
+layout: null
+permalink: /feed.xml
+sitemap: false
+---
+{%- comment -%}
+  Atom feed built from _data/news.yml.
+
+  jekyll-feed only indexes `_posts`, and news here lives in YAML so it
+  stays editable without inventing a file per entry — so this template
+  replaces the plugin rather than sitting alongside it.
+
+  News entries have no title of their own, so each entry's title is the
+  first sentence of its text with markdown stripped. Every entry links
+  back to /news/ since individual items have no page of their own.
+{%- endcomment -%}
+{%- assign items = site.data.news | sort: "date" | reverse -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.title | xml_escape }}</title>
+  <link href="{{ '/feed.xml' | absolute_url }}" rel="self" type="application/atom+xml"/>
+  <link href="{{ '/' | absolute_url }}" rel="alternate" type="text/html"/>
+  <id>{{ '/' | absolute_url }}</id>
+  {%- if items.first %}
+  <updated>{{ items.first.date | date_to_xmlschema }}</updated>
+  {%- else %}
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  {%- endif %}
+  <author>
+    <name>{{ site.pi.name | xml_escape }}</name>
+    {%- if site.contact.email %}<email>{{ site.contact.email }}</email>{% endif %}
+  </author>
+  {%- for item in items %}
+  {%- assign plain = item.text | markdownify | strip_html | normalize_whitespace | strip -%}
+  <entry>
+    <title>{{ plain | truncate: 90 | xml_escape }}</title>
+    <link href="{{ '/news/' | absolute_url }}" rel="alternate" type="text/html"/>
+    <id>{{ '/news/' | absolute_url }}#{{ item.date | date: '%Y-%m-%d' }}-{{ forloop.index }}</id>
+    <updated>{{ item.date | date_to_xmlschema }}</updated>
+    <published>{{ item.date | date_to_xmlschema }}</published>
+    <content type="html">{{ item.text | markdownify | strip | xml_escape }}</content>
+  </entry>
+  {%- endfor %}
+</feed>

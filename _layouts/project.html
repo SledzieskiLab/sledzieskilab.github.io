@@ -1,0 +1,201 @@
+---
+layout: default
+---
+{%- comment -%}
+  A per-publication project page: title → authors → link buttons →
+  teaser → body (figures inline) → BibTeX.
+
+  Central idea: publication metadata is not restated here. A page names
+  its paper with `citekey:` and inherits title, authors, venue, links,
+  thumbnail and citation from _data/publications.yml, so they can never
+  disagree with /publications/. Any inherited value can be overridden by
+  setting the same key in front matter (see _projects/TEMPLATE.md).
+
+  `citekey:` is optional — a project not tied to one paper just supplies
+  its own title, authors and venue. The pub lookups below are guarded.
+{%- endcomment -%}
+
+{%- comment -%} ---------- resolve the paper ---------- {%- endcomment -%}
+{%- assign pub = nil -%}
+{%- if page.citekey and page.citekey != '' -%}
+  {%- assign pub = site.data.publications | where: 'citekey', page.citekey | first -%}
+{%- endif -%}
+
+{%- comment -%}
+  page.title is never empty — Jekyll falls back to the titleized
+  filename ("Planet Md"). Detect that (it slugifies straight back to the
+  slug) and use the paper's real title instead. Only catches files made
+  by hand; `make project` already writes a real `title:`.
+{%- endcomment -%}
+{%- assign _slug = page.url | split: '/' | last -%}
+{%- assign _title_slug = page.title | slugify -%}
+{%- assign p_title = page.title -%}
+{%- if pub and _title_slug == _slug -%}
+  {%- assign p_title = pub.title -%}
+{%- endif -%}
+{%- assign p_venue  = page.venue  | default: pub.venue -%}
+{%- assign p_year   = page.year   | default: pub.year -%}
+{%- comment -%}
+  No status badge here, deliberately — "preprint"/"in press" only earns
+  its keep disambiguating a list of papers; /publications/ still shows it.
+{%- endcomment -%}
+{%- assign p_note   = page.note   | default: pub.note -%}
+
+{%- comment -%}
+  Teaser falls back to the publication thumbnail, so a page with no
+  artwork of its own still leads with a figure, not a wall of text.
+{%- endcomment -%}
+{%- assign teaser = page.teaser -%}
+{%- assign teaser_base = '/assets/images/projects/' -%}
+{%- if teaser == nil and page.teaser_video == nil and pub.image -%}
+  {%- assign teaser = pub.image -%}
+  {%- assign teaser_base = '/assets/images/pubs/' -%}
+{%- endif -%}
+
+{%- comment -%}
+  BibTeX renders when there is a paper to cite it from, or when the page
+  supplies a raw `bibtex:` block itself.
+{%- endcomment -%}
+{%- assign has_bibtex = false -%}
+{%- if pub or page.bibtex -%}{%- assign has_bibtex = true -%}{%- endif -%}
+{%- assign bib_id = page.citekey | default: p_title | slugify | prepend: 'bib-' -%}
+
+<div class="wrap page-head project-head">
+  <p class="research-area__parent">
+    <a href="{{ '/publications/' | relative_url }}">&larr; Publications</a>
+  </p>
+
+  <h1 class="project__title">{{ p_title }}</h1>
+
+  {%- comment -%}
+    ---------- authors ----------
+    A structured `authors:` list gives per-author links, superscript
+    affiliations, and `lab: true` to bold a lab member. Omit it and the
+    surname-only string from publications.yml is used instead.
+  {%- endcomment -%}
+  {%- if page.authors -%}
+  <p class="project__authors">
+    {%- for a in page.authors -%}
+      <span class="project__author">
+        {%- if a.lab %}<strong>{%- endif -%}
+        {%- if a.url %}<a href="{{ a.url }}">{{ a.name }}</a>{% else %}{{ a.name }}{% endif -%}
+        {%- if a.lab %}</strong>{%- endif -%}
+        {%- if a.affil %}<sup>{{ a.affil | join: ',' }}</sup>{% endif -%}
+        {%- if a.note %}<sup>{{ a.note }}</sup>{% endif -%}
+      </span>
+      {%- unless forloop.last %}, {% endunless -%}
+    {%- endfor -%}
+  </p>
+  {%- elsif pub -%}
+  <p class="project__authors">{{ pub.authors | markdownify | remove: '<p>' | remove: '</p>' }}</p>
+  {%- endif -%}
+
+  {%- if page.affiliations %}
+  <p class="project__affils">
+    {%- for af in page.affiliations -%}
+    <span><sup>{{ forloop.index }}</sup>{{ af }}</span>
+    {%- endfor -%}
+  </p>
+  {%- endif -%}
+
+  {%- if page.author_note %}
+  <p class="project__note">{{ page.author_note }}</p>
+  {%- endif -%}
+
+  {%- if p_venue %}
+  <p class="project__venue">
+    <em>{{ p_venue }}</em>{% if p_year %}, {{ p_year }}{% endif %}
+    {%- if p_note %} &middot; {{ p_note }}{% endif -%}
+  </p>
+  {%- endif -%}
+
+  {%- comment -%}
+    ---------- link buttons ----------
+    Known keys render in a fixed order with fixed labels; `links.extra`
+    is the escape hatch for anything else. paper: and code: fall back to
+    the publication's own links. Paper is the solid button, rest ghost.
+  {%- endcomment -%}
+  {%- assign link_keys   = 'paper,arxiv,code,data,demo,video,slides,poster,docs' | split: ',' -%}
+  {%- assign link_labels = 'Paper,arXiv,Code,Data,Demo,Video,Slides,Poster,Docs' | split: ',' -%}
+  <div class="pub__links project__links">
+    {%- for k in link_keys -%}
+      {%- assign url = page.links[k] -%}
+      {%- if url == nil and k == 'paper' -%}{%- assign url = pub.links.paper -%}{%- endif -%}
+      {%- if url == nil and k == 'code'  -%}{%- assign url = pub.links.code  -%}{%- endif -%}
+      {%- if url -%}
+      <a class="btn btn--sm {% if k == 'paper' %}btn--solid{% else %}btn--ghost{% endif %}"
+         href="{{ url }}">{{ link_labels[forloop.index0] }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if page.links.extra -%}
+      {%- for l in page.links.extra %}
+      <a class="btn btn--sm btn--ghost" href="{{ l.url }}">{{ l.text }}</a>
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- if has_bibtex %}
+    <a class="btn btn--sm btn--ghost" href="#bibtex">BibTeX</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- comment -%} ---------- teaser: an image or a short looping clip ---------- {%- endcomment -%}
+{%- if page.teaser_video or teaser %}
+<div class="wrap project__teaser">
+  <figure class="project-figure">
+    {%- if page.teaser_video -%}
+    {%- capture _vid %}{% include project-asset.html path=page.teaser_video base='/assets/videos/projects/' %}{% endcapture -%}
+    {%- comment -%}
+      autoplay requires muted; playsinline stops iOS taking it fullscreen.
+      A `teaser:` image alongside becomes the poster frame — worth
+      setting, since it's also what shows if autoplay is refused.
+      `teaser_video_controls: true` adds a control bar and drops the loop,
+      for a clip long enough that readers want to pause and scrub it.
+    {%- endcomment -%}
+    <video class="project-figure__media" autoplay muted playsinline preload="metadata"
+           {% if page.teaser_video_controls %}controls{% else %}loop{% endif %}
+           {% if page.teaser %}poster="{% include project-asset.html path=page.teaser base='/assets/images/projects/' %}"{% endif %}>
+      <source src="{{ _vid }}" type="video/mp4">
+    </video>
+    {%- else -%}
+    <img class="project-figure__media"
+         src="{% include project-asset.html path=teaser base=teaser_base %}"
+         alt="{{ page.teaser_alt | default: 'Overview figure' }}">
+    {%- endif -%}
+    {%- if page.teaser_caption %}
+    <figcaption class="project-caption">{{ page.teaser_caption | markdownify | remove: '<p>' | remove: '</p>' }}</figcaption>
+    {%- endif %}
+  </figure>
+</div>
+{%- endif %}
+
+<div class="wrap section">
+  <div class="prose project__body">
+
+    {%- comment -%}
+      The markdown body — the whole of the page's prose, abstract
+      included (no separate `abstract:` key). Headings start at `##`,
+      since the title above is the page's only h1. Figures go inline via
+      _includes/figure.html, next to the text that explains them.
+    {%- endcomment -%}
+    {{ content }}
+
+    {%- comment -%}
+      ---------- BibTeX ----------
+      Shown open rather than behind a dialog, through the same include
+      the dialogs use. data-copy carries the id to copy — see dialogs.js.
+    {%- endcomment -%}
+    {%- if has_bibtex %}
+    <h2 id="bibtex">BibTeX</h2>
+    <div class="bib-block">
+      <pre class="bib-block__code" id="{{ bib_id }}"><code>
+{%- if page.bibtex -%}{{ page.bibtex | strip }}{%- else -%}{% include bibtex.html pub=pub %}{%- endif -%}
+</code></pre>
+      <div class="bib-block__foot">
+        <button type="button" class="btn btn--solid btn--sm" data-copy="{{ bib_id }}">Copy</button>
+      </div>
+    </div>
+    {%- endif %}
+  </div>
+</div>

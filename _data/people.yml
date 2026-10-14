@@ -1,0 +1,64 @@
+# ============================================================
+#  Lab members
+#
+#  To add someone: drop a square photo (600x600+, JPG/PNG) in
+#  assets/images/people/ as firstname-lastname.jpg, copy an entry
+#  below, and edit the fields (only `name` and `role` are required;
+#  `photo` falls back to a placeholder if missing).
+#
+#  `group` sets the order on /team/ — pi, postdoc, phd, masters,
+#  undergrad, staff (from `people_groups` in _data/settings.yml).
+# ============================================================
+
+- name: "Samuel Sledzieski"
+  role: "Principal Investigator"
+  group: pi
+  photo: "sam-sledzieski-2026.jpg"
+  bio: >-
+    Sam is an Incoming Assistant Professor in the [Halıcıoğlu Data Science Institute](https://datascience.ucsd.edu/) at [UC San Diego](https://ucsd.edu/). Prior to joining HDSI, he was a postdoc at the Flatiron Institute [Center for Computational Biology](https://www.simonsfoundation.org/flatiron/computational-biology/) and Princeton University's [Lewis Sigler Institute](https://lsi.princeton.edu/). Sam has held research positions at [Microsoft Research](https://www.microsoft.com/en-us/research/group/ai-for-good-research-lab/) and the [Centre Scientifique de Monaco](https://www.centrescientifique.mc/en). He received his PhD and SM in Computer Science from MIT, and his BS in Computer Science from the University of Connecticut. He is a recipient of the National Science Foundation Graduate Research Fellowship.
+
+
+  links:
+    email: "ssledzieski@ucsd.edu"
+    website: "https://samsl.io"
+    github: "samsledje"
+    scholar: "https://scholar.google.com/citations?user=BoZ7AqYAAAAJ&hl=en"
+    bluesky: "samsl.io"
+
+- name: "You!"
+  # role: "PhD Student"
+  group: phd
+  photo: "placeholder.svg"
+  # interests: "Protein language models, generative design"
+  links:
+    # email: "example@ucsd.edu"
+    # github: "example"
+    website: /join
+    
+# - name: "Your First PhD Student"
+#   role: "PhD Student"
+#   group: phd
+#   photo: "placeholder.svg"
+#   bio: >-
+#     Placeholder. Omit `bio` entirely and the photo is not clickable — the card just shows the name, role and links.
+
+#   program: "Data Science"
+#   interests: "Interaction network inference"
+#   links:
+#     email: "student@ucsd.edu"
+
+# - name: "Your First Undergrad"
+#   role: "Undergraduate Researcher"
+#   group: undergrad
+#   photo: "placeholder.svg"
+#   interests: "Benchmarking and evaluation"
+
+# ---------- Alumni ----------
+# Alumni render as a compact text list, not photo cards.
+# Use `now` to record where they went.
+
+# - name: "Former Student"
+#   role: "PhD Student"
+#   group: alumni
+#   years: "2027–2032"
+#   now: "Scientist, Genentech"

@@ -1,0 +1,56 @@
+# ============================================================
+#  Color palettes
+#
+#  Each top-level key is a complete palette. Pick one for the site with
+#  `palette: <name>` in _config.yml. Every palette must define the same
+#  set of roles — main.scss reads whichever one is selected and turns
+#  every key into a --custom-property of that name.
+# ============================================================
+
+navy:
+  primary: "#182b49" # body text, dark sections, buttons
+  primary-soft: "#2d4160" # secondary text, nav links
+  primary-deep: "#0f1c30" # deepest shade — footer, button hover
+
+  accent: "#ffcd00" # highlights on dark; tags
+  accent-muted: "#d9ae00" # link underlines, hover, focus rings
+
+  background: "#f7f9fb" # the page
+  surface: "#ffffff" # cards, dialogs, chips
+  border: "#e3e8ee" # hairlines and card outlines
+  fill: "#e8edf3" # image placeholders before art loads
+  code-background: "#eef1f5" # inline code and the BibTeX block
+
+  text-muted: "#6b7280" # captions, dates, eyebrow labels
+  text-faint: "#9ca3af" # input placeholders only
+
+  on-primary: "#ffffff" # text and icons on dark
+  on-primary-soft: "#b9c2ce" # body text in the footer
+  on-primary-muted: "#7d8896" # footer labels, fine print
+
+  success: "#2f6b46" # the "Copied" confirmation only
+
+# Sage — a warmer, botanical alternative to navy.
+sage:
+  primary: "#1a331a" # body text, dark sections, buttons
+  primary-soft: "#314931" # secondary text, nav links
+  primary-deep: "#101e0f" # deepest shade — footer, button hover
+
+  accent: "#f0af4c" # highlights on dark; tags
+  accent-muted: "#e28f12" # link underlines, hover, focus rings
+
+  background: "#f7f6ef" # the page — warm parchment, not stark white
+  surface: "#ffffff" # cards, dialogs, chips
+  border: "#e2e4da" # hairlines and card outlines
+  fill: "#e8ebe1" # image placeholders before art loads
+  code-background: "#eef0e8" # inline code and the BibTeX block
+
+  text-muted: "#666c5f" # captions, dates, eyebrow labels
+  text-faint: "#9ea694" # input placeholders only
+
+  on-primary: "#ffffff" # text and icons on dark
+  on-primary-soft: "#c3d2bc" # body text in the footer
+  on-primary-muted: "#899d7b" # footer labels, fine print
+
+  success: "#2b6e6a" # the "Copied" confirmation only — teal, so it
+                      # doesn't read as just another shade of primary

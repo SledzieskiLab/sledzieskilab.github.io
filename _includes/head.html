@@ -1,0 +1,42 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{%- comment -%}
+  jekyll-seo-tag generates title, description, canonical URL,
+  Open Graph, and Twitter card tags from _config.yml and page
+  front matter. Don't hand-write those here — set them in
+  front matter instead.
+{%- endcomment -%}
+{% seo %}
+
+{%- comment -%}
+  Fonts, SIL Open Font License via Google Fonts: PT Sans for headings
+  and the wordmark, Public Sans for body/UI, standing in for Aptos
+  (proprietary, can't be served as a webfont — see --body in main.scss,
+  the only other place a font is named).
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Public+Sans:wght@400;500;600&display=swap">
+
+{%- comment -%}
+  ?v= busts the browser cache. Without it an edited stylesheet keeps
+  serving from cache during `make serve`, so changes appear not to work.
+{%- endcomment -%}
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<link rel="icon" href="{{ '/assets/images/favicon.svg' | relative_url }}" type="image/svg+xml">
+<link rel="alternate" type="application/atom+xml" title="{{ site.title }}"
+      href="{{ '/feed.xml' | absolute_url }}">
+
+
+{%- comment -%}
+  The site's only JavaScript, both deferred and purely additive:
+  dialogs.js (BibTeX copy, member bios) and publications.js (search
+  and group-by; no-ops without #pub-list). ?v= busts the cache, same
+  reason as the stylesheet above.
+{%- endcomment -%}
+{%- assign v = site.time | date: '%s' -%}
+<script src="{{ '/assets/js/dialogs.js' | relative_url }}?v={{ v }}" defer></script>
+<script src="{{ '/assets/js/publications.js' | relative_url }}?v={{ v }}" defer></script>

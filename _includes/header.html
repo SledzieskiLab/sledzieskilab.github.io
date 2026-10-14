@@ -1,0 +1,70 @@
+{%- comment -%}
+  Site header. The mobile menu is a checkbox toggle so it works without
+  JavaScript — visually hidden rather than display:none, since that
+  would make it unfocusable and lock out keyboard users.
+{%- endcomment -%}
+
+<a class="skip-link" href="#content">Skip to content</a>
+
+
+{%- if site.recruiting.active -%}
+<div class="banner">
+  {{ site.recruiting.text }}
+  {%- if site.recruiting.link %}
+  <a href="{{ site.recruiting.link | relative_url }}">{{ site.recruiting.link_text | default: "Learn more" }} &rarr;</a>
+  {%- endif %}
+</div>
+{%- endif -%}
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="wordmark" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle"
+           role="switch" aria-controls="site-nav" aria-label="Show navigation">
+    <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true">Menu</label>
+
+    {%- comment -%}
+      Research gets a submenu when the collection outputs its own pages
+      (the `output:` flag in _config.yml). Check lives in
+      research-output.html so the nav, /research/ and the homepage agree.
+    {%- endcomment -%}
+    {%- capture _research_output -%}{%- include research-output.html -%}{%- endcapture -%}
+    {%- if _research_output == 'true' -%}{%- assign research_pages = true -%}
+    {%- else -%}{%- assign research_pages = false -%}{%- endif -%}
+    {%- assign research_areas = site.research | sort: "order" -%}
+
+    <nav class="nav" id="site-nav" aria-label="Main navigation">
+      {%- for item in site.data.nav -%}
+        {%- comment -%} Mark the current page (or, for Research, any of
+          its child pages) for the underline state. {%- endcomment -%}
+        {%- assign current = false -%}
+        {%- if page.url == item.url -%}{%- assign current = true -%}{%- endif -%}
+
+        {%- assign is_research = false -%}
+        {%- if item.url == '/research/' and research_pages and research_areas.size > 0 -%}
+          {%- assign is_research = true -%}
+          {%- if page.url contains '/research/' -%}{%- assign current = true -%}{%- endif -%}
+        {%- endif -%}
+
+        {%- if is_research -%}
+          {%- comment -%}
+            Hover OR focus-within opens it, so it works with a keyboard
+            and needs no JavaScript. The parent stays a real link to
+            /research/ — the submenu is an addition, not a replacement.
+          {%- endcomment -%}
+          <span class="nav__group">
+            <a href="{{ item.url | relative_url }}"{% if current %} aria-current="page"{% endif %}>{{ item.title }}</a>
+            <ul class="nav__submenu">
+              {%- for area in research_areas %}
+              <li><a href="{{ area.url | relative_url }}">{{ area.title }}</a></li>
+              {%- endfor %}
+            </ul>
+          </span>
+        {%- else -%}
+          <a href="{{ item.url | relative_url }}"{% if current %} aria-current="page"{% endif %}>{{ item.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+  </div>
+</header>

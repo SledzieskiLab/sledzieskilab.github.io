@@ -1,0 +1,353 @@
+# ============================================================
+#  Publications — maintained by hand.
+#
+#  TO ADD A PAPER: copy a block, newest at the top.
+#
+#  Fields:
+#    title     (required)
+#    authors   (required) — use **Name** to bold lab members
+#    venue     (required) — journal or conference
+#    year      (required) — integer, used for grouping
+#    area      optional   — groups the paper under "Group by: Area"
+#    status    optional   — 'preprint' | 'in press' | 'workshop'
+#                           (omit for a normal published paper).
+#                           Renders as the badge beside the title.
+#    type      optional   — "inproceedings" for conference papers;
+#                           defaults to a BibTeX @article entry
+#    doi       optional   — bare DOI (no https://doi.org/ prefix).
+#                           Used for the BibTeX entry; the visible link
+#                           lives in links.paper.
+#    volume / number / pages   optional — included in the BibTeX entry
+#    image     optional   — thumbnail in assets/images/pubs/
+#    selected  optional   — true puts it on the homepage and in the
+#                           "Selected" filter on /publications/
+#    note      optional   — short callout shown after the venue
+#    citekey   (set on every entry) — the BibTeX key.
+#    bibtex_authors  optional — override author parsing
+#
+#  Links: each entry shows one link to the paper, a BibTeX button, and
+#  a code link when there is one. DOI and publisher PDF both resolve to
+#  the same paper, so only one is shown — prefer the DOI, it's stable.
+#    links:
+#      paper: 'https://doi.org/...'   # or a PDF/preprint URL
+#      code:  'https://github.com/...'
+# ============================================================
+
+- title: "Learning the language of protein-protein interactions"
+  citekey: "ullanat2026learning"
+  image: "ullanat2026learning.jpg"
+  authors: "Ullanat, Jing, **Sledzieski**, Berger"
+  venue: "Nature Communications"
+  year: 2026
+  area: "Protein Networks"
+  volume: "17"
+  number: "1199"
+  doi: "10.1038/s41467-025-67971-3"
+  links:
+    paper: "https://doi.org/10.1038/s41467-025-67971-3"
+    code: "https://github.com/VarunUllanat/mint"
+
+- title: "MIMIC: A Generative Multimodal Foundation Model for Biomolecules"
+  citekey: "golkar2026mimic"
+  image: "golkar2026mimic.jpg"
+  authors: 'Golkar, Kovalic\*, Espejo Morales\*, **Sledzieski**\*, Li\*, Sokolova, Krawezik, Bietti, Skok Gibbs, Klypa, Xiong, Lanusse, Parker, Cho, Cranmer, Hehir, McCabe, Meyer, Morel, Mukhopadhyay, Pettee, Qu, Shen, Fouhey, Sotoudeh, Mulligan, Cossio, Hanson, Jones, Troyanskaya, Ho'
+  venue: "arXiv"
+  year: 2026
+  area: "Protein Language Models"
+  status: "preprint"
+  selected: true
+  doi: "10.48550/arXiv.2604.24506"
+  links:
+    paper: "https://doi.org/10.48550/arXiv.2604.24506"
+    code: "https://github.com/PolymathicAI/MIMIC"
+
+- title: "PLANET-MD: Ultra-fast Proteome-scale Prediction of Allosteric Networks in Proteins"
+  citekey: "sledzieski2026planetmd"
+  image: "sledzieski2026planetmd.jpg"
+  authors: "**Sledzieski**, Hanson"
+  venue: "bioRxiv"
+  year: 2026
+  area: "Protein Structure"
+  status: "preprint"
+  selected: true
+  doi: "10.1101/2025.06.12.659353"
+  links:
+    paper: "https://doi.org/10.1101/2025.06.12.659353"
+    code: "https://github.com/flatironinstitute/PLANET-MD"
+
+- title: "Reverse Distillation: Consistently Scaling Protein Language Model Representations"
+  citekey: "catrina2026reverse"
+  image: "catrina2026reverse.png"
+  authors: 'Catrina, Bepler, **Sledzieski**\+, Singh\+'
+  venue: "International Conference on Learning Representations"
+  year: 2026
+  area: "Protein Language Models"
+  type: "inproceedings"
+  doi: "10.48550/arXiv.2603.07710"
+  links:
+    paper: "https://arxiv.org/abs/2603.07710"
+    code: "https://github.com/rohitsinghlab/plm_reverse_distillation"
+
+- title: "The landscape of machine learning approaches for modeling protein conformational ensembles"
+  citekey: "sledzieski2026landscape"
+  image: "sledzieski2026landscape.jpg"
+  authors: "**Sledzieski**, Hanson"
+  venue: "Current Opinion in Structural Biology"
+  year: 2026
+  area: "Protein Structure"
+  doi: "10.1016/j.sbi.2026.103253"
+  links:
+    paper: "https://www.sciencedirect.com/science/article/abs/pii/S0959440X26000357"
+
+- title: "Decoding the functional interactome of non-model organisms with PHILHARMONIC"
+  citekey: "sledzieski2025decoding"
+  image: "sledzieski2025decoding.jpg"
+  authors: "**Sledzieski**, Versavel, Singh, Ocitti, Devkota, Kumar, Shpilker, Roger, Yang, Lewinski, Putnam, Klein-Seetharaman, Berger, Cowen"
+  venue: "Conference on Research in Computational Molecular Biology (RECOMB)"
+  year: 2025
+  area: "Non-Model Organisms"
+  type: "inproceedings"
+  selected: true
+  doi: "10.1101/2024.10.25.620267"
+  links:
+    paper: "https://doi.org/10.1101/2024.10.25.620267"
+    code: "https://github.com/samsledje/philharmonic"
+
+- title: "Memory-efficient, accelerated protein interaction inference with Blocked, Multi-GPU D-SCRIPT"
+  citekey: "schaffer2025memoryefficient"
+  authors: "Schäffer, **Sledzieski**, Cowen, Berger"
+  venue: "Bioinformatics"
+  year: 2025
+  area: "Protein Networks"
+  volume: "41"
+  number: "10"
+  pages: "btaf564"
+  doi: "10.1093/bioinformatics/btaf564"
+  links:
+    paper: "https://doi.org/10.1093/bioinformatics/btaf564"
+    code: "https://github.com/samsledje/D-SCRIPT/releases/tag/v0.3.0"
+
+- title: "RDS: A ReCIPE for overlapping community detection in biological networks"
+  citekey: "ocitti2025rds"
+  authors: "Ocitti, Versavel, **Sledzieski**, Cowen"
+  venue: "ACM Conference on Bioinformatics, Computational Biology, and Health Informatics (ACM-BCB)"
+  year: 2025
+  area: "Non-Model Organisms"
+  type: "inproceedings"
+  doi: "10.1145/3765612.3767301"
+  links:
+    paper: "https://doi.org/10.1145/3765612.3767301"
+
+- title: "Rapid and accurate prediction of protein homo-oligomer symmetry"
+  citekey: "kshirsagar2025rapid"
+  image: "kshirsagar2025rapid.jpg"
+  authors: "Kshirsagar, Meller, Humphreys, **Sledzieski**, Xu, Dodhia, Horvitz, Berger, Bowman, Lavista Ferres, Baker, Baek"
+  venue: "Nature Communications"
+  year: 2025
+  area: "Protein Structure"
+  volume: "16"
+  number: "2017"
+  doi: "10.1038/s41467-025-57148-3"
+  links:
+    paper: "https://doi.org/10.1038/s41467-025-57148-3"
+    code: "https://github.com/microsoft/seq2symm"
+
+- title: "Democratizing protein language models with parameter-efficient fine-tuning"
+  citekey: "sledzieski2024democratizing"
+  image: "sledzieski2024democratizing.jpg"
+  authors: "**Sledzieski**, Kshirsagar, Baek, Berger, Dodhia, Lavista Ferres"
+  venue: "Proceedings of the National Academy of Sciences"
+  year: 2024
+  area: "Protein Networks"
+  volume: "121"
+  number: "26"
+  pages: "e2405840121"
+  selected: true
+  doi: "10.1073/pnas.2405840121"
+  links:
+    paper: "https://doi.org/10.1073/pnas.2405840121"
+    code: "https://cb.csail.mit.edu/cb/topsyturvy/"
+
+- title: "Insulin Signaling and Pharmacology in Corals"
+  citekey: "vizgaudis2024insulin"
+  authors: "Vizgaudis, Kumar, Olaosebikan, Roger, Brenner, **Sledzieski**, Yang, Lewinski, Singh, Daniels, Cowen, Klein-Seetharaman"
+  venue: "Authorea Preprints"
+  year: 2024
+  area: "Non-Model Organisms"
+  status: "preprint"
+  doi: "10.22541/au.170666200.07483513/"
+  links:
+    paper: "https://doi.org/10.22541/au.170666200.07483513/"
+
+- title: "Learning the language of antibody hypervariability"
+  citekey: "singh2024learning"
+  image: "singh2024learning.png"
+  authors: "Singh, Im, Qiu, Macnkess, Gupta, Sorenson, **Sledzieski**, Erlach, Wendt, Nanfack, Bryson, Berger"
+  venue: "Proceedings of the National Academy of Sciences"
+  year: 2024
+  area: "Protein Language Models"
+  volume: "122"
+  number: "1"
+  pages: "e2418918121"
+  doi: "10.1073/pnas.2418918121"
+  links:
+    paper: "https://doi.org/10.1073/pnas.2418918121"
+    code: "https://github.com/rs239/abmap"
+
+- title: "Contrastive learning in protein language space predicts interactions between drugs and protein targets"
+  citekey: "singh2023contrastive"
+  image: "singh2023contrastive.jpg"
+  authors: 'Singh\*, **Sledzieski**\*, Bryson, Cowen, Berger'
+  venue: "Proceedings of the National Academy of Sciences"
+  year: 2023
+  area: "Drug Discovery"
+  volume: "120"
+  number: "24"
+  pages: "e2220778120"
+  selected: true
+  doi: "10.1073/pnas.2220778120"
+  links:
+    paper: "https://doi.org/10.1073/pnas.2220778120"
+    code: "https://cb.csail.mit.edu/cb/conplex/"
+
+- title: "Parameter-efficient fine-tuning of protein language models improves prediction of protein-protein interactions"
+  citekey: "sledzieski2023parameterefficient"
+  authors: "**Sledzieski**, Kshirsagar, Baek, Berger, Dodhia, Lavista Ferres"
+  venue: "Machine Learning for Structural Biology Workshop at NeurIPS"
+  year: 2023
+  status: "workshop"
+  area: "Protein Networks"
+  type: "inproceedings"
+  links:
+    paper: "https://www.mlsb.io/papers_2023/Parameter-Efficient_Fine-Tuning_of_Protein_Language_Models_Improves_Prediction_of_Protein-Protein_Interactions.pdf"
+
+- title: "TT3D: Leveraging pre-computed protein sequence models to predict protein-protein interactions"
+  citekey: "sledzieski2023tt3d"
+  image: "sledzieski2023tt3d.png"
+  authors: '**Sledzieski**\*, Devkota\*, Singh, Cowen, Berger'
+  venue: "Bioinformatics"
+  year: 2023
+  area: "Protein Networks"
+  volume: "39"
+  number: "11"
+  pages: "btad663"
+  links:
+    paper: "https://academic.oup.com/bioinformatics/article/39/11/btad663/7332153"
+    code: "https://github.com/microsoft/peft_proteomics"
+
+- title: "Transfer of knowledge from model organisms to evolutionarily distant non-model organisms: The coral Pocillopora damicornis membrane signaling receptome"
+  citekey: "kumar2023transfer"
+  image: "kumar2023transfer.jpg"
+  authors: "Kumar, Brenner, **Sledzieski**, Olaosebikan, Lynn-Goin, Putnam, Yang, Lewinski, Singh, Daniels, Cowen, Klein-Seetharaman"
+  venue: "Plos one"
+  year: 2023
+  area: "Non-Model Organisms"
+  volume: "18"
+  number: "2"
+  pages: "e0270965"
+  doi: "10.1371/journal.pone.0270965"
+  links:
+    paper: "https://doi.org/10.1371/journal.pone.0270965"
+
+- title: "virDTL: Viral recombination analysis through phylogenetic reconciliation and its application to sarbecoviruses and SARS-CoV-2"
+  citekey: "zaman2023virdtl"
+  authors: 'Zaman\*, **Sledzieski**\*, Wu, Bansal'
+  venue: "J Comput Biol"
+  year: 2023
+  area: "Phylogenetics"
+  volume: "30"
+  number: "1"
+  pages: "3--20"
+  doi: "10.1089/cmb.2021.0507"
+  links:
+    paper: "https://doi.org/10.1089/cmb.2021.0507"
+    code: "https://github.com/suz11001/virDTL"
+
+- title: "Contrasting drugs from decoys"
+  citekey: "sledzieski2022contrasting"
+  image: "sledzieski2022contrasting.png"
+  authors: '**Sledzieski**\*, Singh\*, Cowen, Berger'
+  venue: "Machine Learning for Structural Biology Workshop at NeurIPS"
+  year: 2022
+  status: "workshop"
+  area: "Drug Discovery"
+  type: "inproceedings"
+  links:
+    paper: "https://www.biorxiv.org/content/10.1101/2022.11.03.515086v1.full.pdf"
+
+- title: "Single-cell mosaicism analysis reveals cell-type-specific somatic mutational burden in Alzheimers Dementia"
+  citekey: "kousi2022singlecell"
+  image: "kousi2022singlecell.jpg"
+  authors: "Kousi, Boix, Park, Mathys, **Sledzieski**, Peng, Bennett, Tsai, Kellis"
+  venue: "bioRxiv"
+  year: 2022
+  area: "Genomics"
+  status: "preprint"
+  doi: "10.1101/2022.04.21.489103"
+  links:
+    paper: "https://doi.org/10.1101/2022.04.21.489103"
+
+- title: "Topsy-Turvy: integrating a global view into sequence-based PPI prediction"
+  citekey: "singh2022topsyturvy"
+  image: "singh2022topsyturvy.png"
+  authors: 'Singh\*, Devkota\*, **Sledzieski**, Berger, Cowen'
+  venue: "Bioinformatics"
+  year: 2022
+  area: "Protein Networks"
+  volume: "38"
+  number: "Supplement 1"
+  pages: "i264-i272"
+  links:
+    paper: "https://academic.oup.com/bioinformatics/article/38/Supplement_1/i264/6617505"
+    code: "https://cb.csail.mit.edu/cb/topsyturvy/"
+
+- title: "Adapting protein language models for rapid drug-target interaction prediction"
+  citekey: "sledzieski2021adapting"
+  image: "sledzieski2021adapting.png"
+  authors: '**Sledzieski**\*, Singh\*, Cowen, Berger'
+  venue: "Machine Learning for Structural Biology Workshop at NeurIPS"
+  year: 2021
+  status: "workshop"
+  area: "Drug Discovery"
+  type: "inproceedings"
+  links:
+    paper: "https://www.biorxiv.org/content/10.1101/2022.11.03.515084v1"
+
+- title: "D-SCRIPT translates genome to phenome with sequence-based, structure-aware, genome-scale predictions of protein-protein interactions"
+  citekey: "sledzieski2021dscript"
+  image: "sledzieski2021dscript.png"
+  authors: '**Sledzieski**\*, Singh\*, Cowen, Berger'
+  venue: "Cell Systems"
+  year: 2021
+  area: "Protein Networks"
+  volume: "12"
+  number: "10"
+  pages: "969-982"
+  selected: true
+  links:
+    paper: "https://www.cell.com/cell-systems/pdfExtended/S2405-4712(21)00333-1"
+    code: "https://cb.csail.mit.edu/cb/dscript/"
+
+- title: "Sequence-based prediction of protein-protein interactions: a structure-aware interpretable deep learning model"
+  citekey: "sledzieski2021sequencebased"
+  image: "sledzieski2021sequencebased.png"
+  authors: '**Sledzieski**\*, Singh\*, Cowen, Berger'
+  venue: "Conference on Research in Computational Molecular Biology (RECOMB)"
+  year: 2021
+  area: "Protein Networks"
+  type: "inproceedings"
+  links:
+    paper: "https://www.biorxiv.org/content/10.1101/2021.01.22.427866v1.full.pdf"
+
+- title: "TreeFix-TP: Phylogenetic error correction for accurate reconstruction of viral transmission networks"
+  citekey: "sledzieski2021treefixtp"
+  image: "sledzieski2021treefixtp.png"
+  authors: '**Sledzieski**\*, Zhang, Mandoiu, Bansal'
+  venue: "Pacific Symposium on Biocomputing (PSB)"
+  year: 2021
+  area: "Phylogenetics"
+  type: "inproceedings"
+  doi: "10.1142/9789811232701_0012"
+  links:
+    paper: "https://doi.org/10.1142/9789811232701_0012"
+    code: "https://github.com/samsledje/TreeFix-TP"

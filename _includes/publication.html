@@ -1,0 +1,94 @@
+{%- comment -%}
+  One publication entry. Expects: include.pub
+
+  Layout is a thumbnail on the left and text on the right, like the
+  Zhong lab. Entries without an `image:` render full width rather
+  than reserving an empty grey box.
+
+  Author names wrapped in **double asterisks** in publications.yml
+  are bolded via markdownify, which is how lab members get
+  highlighted without extra markup in the data file.
+{%- endcomment -%}
+
+{%- assign pub = include.pub -%}
+{%- comment -%} Unique id for the BibTeX dialog; forloop index isn't
+  available here, so derive it from title + year. {%- endcomment -%}
+{%- assign uid = pub.title | slugify | append: '-' | append: pub.year -%}
+{%- assign area = pub.area | default: 'Other' -%}
+
+{%- comment -%}
+  Papers with a page in _projects/ get an extra chip. Lookup runs from
+  the project side by citekey, so publications.yml never needs to know
+  a project page exists — creating the file is the whole job.
+{%- endcomment -%}
+{%- capture project_url -%}{%- include project-url.html citekey=pub.citekey -%}{%- endcapture -%}
+{%- assign project_url = project_url | strip -%}
+
+{%- comment -%}
+  data-year / data-area drive the grouping and filtering controls on
+  /publications/. The search haystack is built in JS from the rendered
+  text rather than from a data attribute, so quotes and markdown in
+  titles can't break the markup.
+{%- endcomment -%}
+<div class="pub{% if pub.image %} pub--illustrated{% endif %}"
+     data-year="{{ pub.year }}"
+     data-area="{{ area | escape }}"
+     data-selected="{% if pub.selected %}true{% else %}false{% endif %}">
+
+  {%- if pub.image %}
+  <div class="pub__thumb">
+    <img src="{{ '/assets/images/pubs/' | append: pub.image | relative_url }}"
+         alt="Figure from {{ pub.title }}" loading="lazy">
+  </div>
+  {%- endif %}
+
+  <div class="pub__body">
+    <h3 class="pub__title">
+      {%- if pub.links.paper -%}
+        <a href="{{ pub.links.paper }}">{{ pub.title }}</a>
+      {%- else -%}
+        {{ pub.title }}
+      {%- endif -%}
+      {%- if pub.status %}<span class="tag">{{ pub.status }}</span>{% endif -%}
+    </h3>
+
+    <p class="pub__authors">{{ pub.authors | markdownify | remove: '<p>' | remove: '</p>' }}</p>
+
+    <p class="pub__venue">
+      <em>{{ pub.venue }}</em>, {{ pub.year }}
+      {%- if pub.note %} &middot; {{ pub.note }}{% endif -%}
+    </p>
+
+    {%- comment -%}
+      A project page when there is one, one link to the paper (DOI
+      preferred over a publisher PDF — both resolve to the same
+      article), BibTeX always, code when there is any.
+    {%- endcomment -%}
+    <div class="pub__links">
+      {%- if project_url != '' %}<a class="chip chip--project" href="{{ project_url }}">Project page</a>{% endif %}
+      {%- if pub.links.paper %}<a class="chip" href="{{ pub.links.paper }}">Paper</a>{% endif %}
+      {%- if pub.links.code %}<a class="chip" href="{{ pub.links.code }}">Code</a>{% endif %}
+      <button type="button" class="chip chip--button" data-dialog-open="bib-{{ uid }}">BibTeX</button>
+    </div>
+  </div>
+
+  {%- comment -%}
+    Native <dialog>. Without JavaScript it stays closed and the button
+    does nothing, so the citation is also emitted as a <noscript> block
+    below to keep it reachable.
+  {%- endcomment -%}
+  <dialog class="bib-dialog" id="bib-{{ uid }}">
+    <div class="bib-dialog__head">
+      <span class="bib-dialog__label">BibTeX</span>
+      <button type="button" class="bib-dialog__close" data-dialog-close aria-label="Close">&times;</button>
+    </div>
+    <pre class="bib-dialog__code"><code>{% include bibtex.html pub=pub %}</code></pre>
+    <div class="bib-dialog__foot">
+      <button type="button" class="btn btn--solid btn--sm" data-copy>Copy</button>
+    </div>
+  </dialog>
+
+  <noscript>
+    <pre class="bib-noscript"><code>{% include bibtex.html pub=pub %}</code></pre>
+  </noscript>
+</div>

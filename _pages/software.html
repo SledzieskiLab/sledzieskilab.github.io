@@ -1,0 +1,112 @@
+---
+layout: default
+permalink: /software/
+title: "Software"
+---
+
+<div class="wrap page-head">
+  <h1>{{ page.title }}</h1>
+  <p class="lead">
+    Our lab develops open-source software for molecular and systems biology. These methods are released and maintained on the <a href="https://github.com/{{ site.social.github }}">Sledzieski Lab</a> GitHub organization.
+  </p>
+</div>
+
+<div class="wrap section">
+  <div>
+  {%- comment -%}
+    Grouped by `area`, ordered by tool count (most first), ties broken
+    alphabetically. Liquid has no two-key sort, so this walks counts
+    from the highest down and emits matching areas at each count.
+  {%- endcomment -%}
+  {%- assign groups = site.data.software | group_by: "area" | sort: "name" -%}
+  {%- assign max_size = 0 -%}
+  {%- for g in groups -%}
+    {%- if g.name != '' and g.size > max_size -%}{%- assign max_size = g.size -%}{%- endif -%}
+  {%- endfor -%}
+  {%- assign areas = '' | split: '' -%}
+  {%- for step in (1..max_size) -%}
+    {%- assign want = max_size | plus: 1 | minus: step -%}
+    {%- for g in groups -%}
+      {%- if g.name != '' and g.size == want -%}
+        {%- assign areas = areas | push: g.name -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- for area in areas -%}
+    <h2 class="pub-year">{{ area }}</h2>
+    <div class="software-list">
+    {%- for s in site.data.software -%}
+    {%- if s.area == area -%}
+    {%- comment -%}
+      Mark: a bespoke `logo` image, or an `emoji` stand-in in the same
+      slot. Both are decorative (the name follows in text beside them),
+      so empty alt / aria-hidden keeps screen readers from saying it twice.
+    {%- endcomment -%}
+    {%- assign mark = s.logo | default: s.emoji -%}
+    <div class="software-item{% if mark %} software-item--logo{% endif %}">
+      {%- if s.logo %}
+      <div class="software-item__logo">
+        <img src="{{ '/assets/images/software/' | append: s.logo | relative_url }}"
+             alt="" loading="lazy" width="256" height="256">
+      </div>
+      {%- elsif s.emoji %}
+      <div class="software-item__logo software-item__logo--emoji" aria-hidden="true">{{ s.emoji }}</div>
+      {%- endif %}
+
+      <div class="software-item__body">
+      {%- comment -%}
+        Most tools live on GitHub (`repo`); a couple are hosted on a
+        project page instead (`home`).
+      {%- endcomment -%}
+      <h3>
+        {%- if s.repo -%}
+          <a href="https://github.com/{{ s.repo }}">{{ s.name }}</a>
+        {%- elsif s.home -%}
+          <a href="{{ s.home }}">{{ s.name }}</a>
+        {%- else -%}
+          {{ s.name }}
+        {%- endif -%}
+      </h3>
+      <p>{{ s.blurb }}</p>
+      <div class="pub__links">
+        {%- if s.repo %}<a class="chip" href="https://github.com/{{ s.repo }}">GitHub</a>{% endif %}
+        {%- if s.home %}<a class="chip" href="{{ s.home }}">Project page</a>{% endif %}
+        {%- if s.links.database %}<a class="chip" href="{{ s.links.database }}">Database</a>{% endif %}
+        {%- if s.links.pypi %}<a class="chip" href="{{ s.links.pypi }}">PyPI</a>{% endif %}
+        {%- if s.links.docs %}<a class="chip" href="{{ s.links.docs }}">Docs</a>{% endif %}
+        {%- if s.links.paper %}<a class="chip" href="{{ s.links.paper }}">Paper</a>{% endif %}
+        {%- if s.repo and s.stars %}
+          {%- comment -%}
+            Badge is fetched by the browser from shields.io, not at build
+            time, so a rate limit or offline build can't break the site.
+          {%- endcomment -%}
+          <img src="https://img.shields.io/github/stars/{{ s.repo }}?style=flat&label=%E2%98%85&color={{ site.data.palette[site.palette].primary | remove: '#' }}"
+               alt="GitHub stars for {{ s.name }}" loading="lazy" class="badge-img">
+        {%- endif %}
+      </div>
+      </div>
+    </div>
+    {%- endif -%}
+    {%- endfor -%}
+    </div>
+  {%- endfor -%}
+
+  {%- comment -%} Anything without an `area` still gets listed. {%- endcomment -%}
+  {%- assign unfiled = site.data.software | where_exp: "s", "s.area == nil" -%}
+  {%- if unfiled.size > 0 -%}
+    <h2 class="pub-year">Other</h2>
+    <div class="software-list">
+    {%- for s in unfiled -%}
+      <div class="software-item">
+        <h3>
+          {%- if s.repo -%}<a href="https://github.com/{{ s.repo }}">{{ s.name }}</a>
+          {%- elsif s.home -%}<a href="{{ s.home }}">{{ s.name }}</a>
+          {%- else -%}{{ s.name }}{%- endif -%}
+        </h3>
+        <p>{{ s.blurb }}</p>
+      </div>
+    {%- endfor -%}
+    </div>
+  {%- endif -%}
+  </div>
+</div>

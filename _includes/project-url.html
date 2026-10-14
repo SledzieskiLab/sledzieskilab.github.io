@@ -1,0 +1,23 @@
+{%- comment -%}
+  Outputs the URL of the project page for a publication, or nothing when
+  that paper has no project page. Expects: include.citekey
+
+  This is the ONE direction the link runs: a project page names its
+  paper's `citekey:`, and everywhere a publication is rendered asks this
+  include whether a page exists. publications.yml therefore never has to
+  be edited to add a project page — creating the file in _projects/ is
+  the whole job, which is the same "content, not templates" rule the rest
+  of the site follows.
+
+  Use it like:
+      {%- capture _pu -%}{%- include project-url.html citekey=pub.citekey -%}{%- endcapture -%}
+      {%- assign _pu = _pu | strip -%}
+      {%- if _pu != '' -%} ... {%- endif -%}
+
+  Unpublished documents (`published: false`, as on _projects/TEMPLATE.md)
+  are not in site.projects, so the template can never match a paper.
+{%- endcomment -%}
+{%- if include.citekey and include.citekey != '' -%}
+  {%- assign _hit = site.projects | where: 'citekey', include.citekey | first -%}
+  {%- if _hit -%}{{ _hit.url | relative_url }}{%- endif -%}
+{%- endif -%}

@@ -1,0 +1,23 @@
+{%- comment -%}
+  Resolves an asset path written in project front matter to a URL.
+  Expects: include.path, include.base
+
+  Three forms are accepted so nobody has to remember which one a given
+  field wants:
+
+    "teaser.png"                  → include.base + the name  (the usual case)
+    "/assets/images/og-card.png"  → site-root path, passed through
+    "https://example.org/x.png"   → remote URL, passed through
+
+  Everything but the remote form goes through relative_url so the site
+  keeps working under a baseurl.
+{%- endcomment -%}
+{%- assign _p = include.path | strip -%}
+{%- assign _first = _p | slice: 0, 1 -%}
+{%- if _p contains '://' -%}
+{{- _p -}}
+{%- elsif _first == '/' -%}
+{{- _p | relative_url -}}
+{%- else -%}
+{{- include.base | append: _p | relative_url -}}
+{%- endif -%}

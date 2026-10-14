@@ -1,0 +1,99 @@
+---
+layout: default
+permalink: /team/
+title: "Team"
+---
+
+<div class="wrap page-head">
+  <h1>{{ page.title }}</h1>
+</div>
+
+<div class="wrap section">
+  {%- assign pis = site.data.people | where: "group", "pi" -%}
+  {%- for p in pis -%}
+  {%- if p.photo -%}
+  {%- assign photo = '/assets/images/people/' | append: p.photo -%}
+  {%- else -%}
+  {%- assign photo = '/assets/images/people/placeholder.svg' -%}
+  {%- endif -%}
+  <div class="pi-card">
+    <div class="person__photo">
+      <img src="{{ photo | relative_url }}" alt="{{ p.name }}">
+    </div>
+    <div>
+      <h2>{{ p.name }}</h2>
+      {%- if p.bio %}{{ p.bio | markdownify }}{% endif %}
+      {%- if p.links %}
+      <div class="person__links">
+        {%- if p.links.email %}<a class="chip" href="mailto:{{ p.links.email }}">Email</a>{% endif %}
+        {%- if p.links.website %}<a class="chip" href="{{ p.links.website }}">Website</a>{% endif %}
+        {%- if p.links.scholar %}<a class="chip" href="{{ p.links.scholar }}">Scholar</a>{% endif %}
+        {%- if p.links.github %}<a class="chip" href="https://github.com/{{ p.links.github }}">GitHub</a>{% endif %}
+        {%- if p.links.bluesky %}<a class="chip" href="https://bsky.app/profile/{{ p.links.bluesky }}">Bluesky</a>{%
+        endif %}
+      </div>
+      {%- endif %}
+    </div>
+  </div>
+  {%- endfor -%}
+
+  {%- comment -%}
+  ---------- Everyone else: one grid, no role headings ----------
+  Order follows `people_groups` in _data/settings.yml (postdoc, phd,
+  masters, undergrad, staff) so the page reads seniority-first, but the
+  bands aren't labelled — each card prints its own role instead.
+
+  Bios live behind a click on the photo (see _includes/person.html), so
+  every card stays the same height whatever the length of the text.
+  {%- endcomment -%}
+  {%- assign ordered = '' | split: '' -%}
+  {%- for g in site.data.settings.people_groups -%}
+  {%- unless g.key == 'pi' -%}
+  {%- assign members = site.data.people | where: "group", g.key -%}
+  {%- for m in members -%}
+  {%- assign ordered = ordered | push: m -%}
+  {%- endfor -%}
+  {%- endunless -%}
+  {%- endfor -%}
+
+  {%- comment -%}
+  Catch-all: someone whose `group` isn't in people_groups would
+  otherwise disappear from the page silently. They go last.
+  {%- endcomment -%}
+  {%- assign known = site.data.settings.people_groups | map: "key" -%}
+  {%- for m in site.data.people -%}
+  {%- unless m.group == 'alumni' or m.group == 'pi' -%}
+  {%- unless known contains m.group -%}
+  {%- assign ordered = ordered | push: m -%}
+  {%- endunless -%}
+  {%- endunless -%}
+  {%- endfor -%}
+
+  {%- if ordered.size > 0 %}
+  <div class="people-grid">
+    {%- for person in ordered -%}
+    {% include person.html person=person %}
+    {%- endfor -%}
+  </div>
+  {%- endif %}
+
+  {%- comment -%}
+  ---------- Alumni ----------
+  A record rather than a roster, so a compact list without photos.
+  {%- endcomment -%}
+  {%- assign alumni = site.data.people | where: "group", "alumni" -%}
+  {%- if alumni.size > 0 -%}
+  <h2 class="group-heading">Alumni</h2>
+  <ul class="alumni-list">
+    {%- for a in alumni -%}
+    <li>
+      <strong>{{ a.name }}</strong>
+      {%- if a.role %}, {{ a.role }}{% endif -%}
+      {%- if a.years %} ({{ a.years }}){% endif -%}
+      {%- if a.now %} <span class="alum-now">&mdash; now {{ a.now }}</span>{% endif -%}
+    </li>
+    {%- endfor -%}
+  </ul>
+  {%- endif -%}
+
+</div>

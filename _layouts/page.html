@@ -1,0 +1,25 @@
+---
+layout: default
+---
+{%- comment -%}
+  Standard interior page. Front matter options:
+    title:    page heading (required)
+    eyebrow:  small tracked mono label above the heading
+    lead:     larger intro paragraph below the heading
+{%- endcomment -%}
+
+<div class="wrap page-head">
+  {%- if page.eyebrow %}<span class="eyebrow">{{ page.eyebrow }}</span>{% endif %}
+  <h1>{{ page.title }}</h1>
+  {%- if page.lead %}<p class="lead">{{ page.lead }}</p>{% endif %}
+</div>
+
+{%- comment -%}
+  One container width sitewide — .prose doesn't impose its own reading
+  measure, so markdown pages fill the same width as /research/ and /team/.
+{%- endcomment -%}
+<div class="wrap section">
+  <div class="prose">
+    {{ content }}
+  </div>
+</div>
